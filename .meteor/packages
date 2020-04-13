@@ -26,3 +26,6 @@ juliancwirko:postcss
 kadira:flow-router
 ostrio:flow-router-extra
 kadira:blaze-layout
+cfs:standard-packages
+cfs:filesystem
+cfs:collection
