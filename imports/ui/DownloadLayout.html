@@ -6,5 +6,24 @@
     <p>
       A list of downloads will be here
     </p>
+    {{> FileList}}
   </main>
+</template>
+
+
+<template name="FileList">
+  <div class="file-view">
+    {{#each uploadedFiles}}
+      {{ > File file=this }}
+    {{/each}}
+  </div>
+</template>
+
+
+<template name="File">
+  <div class="file-view">
+    <p>
+      <a href="{{file.url}}">{{ file.name }}</a>
+    </p>
+  </div>
 </template>
