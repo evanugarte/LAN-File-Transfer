@@ -3,5 +3,10 @@
 </head>
 
 <body>
-  {{> Template.dynamic template=main}}
+  {{> SideMenu}}
+  <div class="pusher">
+    <div id="content" class="ui container fixed">
+      {{> Template.dynamic template=main}}
+    </div>
+  </div>
 </body>
