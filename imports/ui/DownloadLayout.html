@@ -21,9 +21,15 @@
 
 
 <template name="File">
-  <div class="file-view">
-    <p>
-      <a href="{{file.url}}">{{ file.name }}</a>
-    </p>
+  <div class="ui relaxed list">
+    <div class="item">
+      <div class="content">
+        <p class="header">
+          <i class="{{ getFileIcon file }} icon"></i>
+          <a href="{{file.url}}" target="_blank">{{ file.name }}</a>
+        </p>
+        information about it here
+      </div>
+    </div>
   </div>
 </template>
