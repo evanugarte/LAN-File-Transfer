@@ -6,7 +6,7 @@ import './DownloadLayout.html';
 Template.DownloadLayout.onCreated(function helloOnCreated() {
   console.log('the deliciousness has landed but now in download');
   console.log(UploadedFiles.find());
-  
+
 });
 
 Template.FileList.helpers({
@@ -41,12 +41,18 @@ const FILE_MAP = {
 }
 
 Template.File.helpers({
-  getFileIcon: function(file) {
+  getFileIcon: function (file) {
     const fileType = getFileType(file.original.name);
-    if(fileType && FILE_MAP[fileType]) {
+    if (fileType && FILE_MAP[fileType]) {
       return FILE_MAP[fileType];
     } else {
       return 'file';
     }
+  }
+});
+
+Template.File.events({
+  'click #delete-button': function (event, template) {
+    UploadedFiles.remove(this.file._id);
   }
 });
