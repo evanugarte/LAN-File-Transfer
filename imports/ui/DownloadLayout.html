@@ -14,7 +14,7 @@
 <template name="FileList">
   <div class="file-view">
     {{#each uploadedFiles}}
-      {{ > File file=this }}
+    {{ > File file=this }}
     {{/each}}
   </div>
 </template>
@@ -29,6 +29,9 @@
           <a href="{{file.url}}" target="_blank">{{ file.name }}</a>
         </p>
         information about it here
+        <div class="ui icon red button" id="delete-button">
+          <i class="trash icon"></i>
+        </div>
       </div>
     </div>
   </div>
