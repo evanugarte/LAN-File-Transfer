@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import '../imports/routes'
-import '../imports/ui/SideMenu'
+import '../imports/ui/TopMenu'
 
 import './main.html';
 

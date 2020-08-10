@@ -1,8 +1,8 @@
 import { Template } from 'meteor/templating';
 
-import './SideMenu.html';
+import './TopMenu.html';
 
-Template.SideMenu.helpers({
+Template.TopMenu.helpers({
   links: [
       { name: 'Home', path: '/', icon: 'home' },
       { name: 'Downloads', path: '/downloads', icon: 'download' }
