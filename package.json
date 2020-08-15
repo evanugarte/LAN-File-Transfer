@@ -10,7 +10,7 @@
   "dependencies": {
     "@babel/runtime": "^7.8.3",
     "jquery": "^3.5.0",
-    "meteor-node-stubs": "^1.0.0",
+    "meteor-node-stubs": "^1.0.1",
     "postcss": "^7.0.27",
     "postcss-load-config": "^2.1.0"
   },
