@@ -6,6 +6,8 @@
 
 #include "cpprest/http_listener.h"
 #include "cpprest/uri.h"
+#include "gridfs_handler.h"
+#include "mongocxx/uri.hpp"
 
 namespace lft {
 class HttpServer {
@@ -24,10 +26,12 @@ class HttpServer {
  private:
   void HandleGet(const web::http::http_request& message) {
     const std::string& uri = message.absolute_uri().to_string();
+    const mongocxx::v_noabi::uri mongo_uri = mongocxx::v_noabi::uri{};
+    GridFsHandler gridfs_handler(mongo_uri);
     if (uri == kFindFileUri) {
-      // handle find file
+      gridfs_handler.FindAllFiles();
     } else if (uri == kUploadFileUri) {
-      // handle upload
+      gridfs_handler.UploadFile();
     }
     message.reply(web::http::status_codes::OK, "nama jeff 2");
     return;
