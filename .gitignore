@@ -1,2 +1,3 @@
 node_modules/
 server/mongo-c-driver-*
+.vscode/

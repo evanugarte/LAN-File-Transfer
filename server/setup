@@ -12,7 +12,8 @@ function install_rest_sdk_dependencies() {
    libboost-date-time-dev libboost-regex-dev \
    libboost-filesystem-dev libboost-random-dev \
    libboost-chrono-dev libboost-serialization-dev \
-   libwebsocketpp-dev openssl libssl-dev ninja-build
+   libwebsocketpp-dev openssl libssl-dev ninja-build \
+   libcpprest-dev
 }
 
 # i found the below steps from:
