@@ -1,5 +1,9 @@
+const UPLOAD_PATH = process.env.DOCKER ?
+  '/meteor_uploads' :
+  '~/meteor_uploads';
+
 const UploadedFiles = new FS.Collection("uploadedFiles", {
-  stores: [new FS.Store.FileSystem("uploadedFiles", { path: "~/meteor_uploads" })]
+  stores: [new FS.Store.FileSystem("uploadedFiles", { path: UPLOAD_PATH })]
 });
 
 UploadedFiles.allow({
