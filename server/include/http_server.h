@@ -14,6 +14,7 @@ class HttpServer {
  public:
   static constexpr char kFindFileUri[] = "/find";
   static constexpr char kUploadFileUri[] = "/upload";
+  static constexpr char kFaviconUri[] = "/favicon.ico";
   explicit HttpServer(const utility::string_t& url) {
     message_listener = web::http::experimental::listener::http_listener(url);
     message_listener.support(
@@ -26,6 +27,10 @@ class HttpServer {
  private:
   void HandleGet(const web::http::http_request& message) {
     const std::string& uri = message.absolute_uri().to_string();
+    if (uri == kFaviconUri) {
+      message.reply(web::http::status_codes::NotFound);
+      return;
+    }
     const mongocxx::v_noabi::uri mongo_uri = mongocxx::v_noabi::uri{};
     GridFsHandler gridfs_handler(mongo_uri);
     if (uri == kFindFileUri) {
