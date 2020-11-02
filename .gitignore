@@ -2,3 +2,4 @@ node_modules/
 server/mongo-c-driver-*
 server/bin/*
 .vscode/
+server/served/*
