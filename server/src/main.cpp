@@ -1,19 +1,26 @@
 #include <iostream>
+#include <string>
 
-#include "http_server.h"
+#include "multiplexer.hpp"
+#include "net/server.hpp"
 
-int main() {
-  utility::string_t address = U("http://127.0.0.1:3000");
-  web::uri_builder uri(address);
-  auto uri_to_listen = uri.to_uri().to_string();
-  auto http_server = std::unique_ptr<lft::HttpServer>(
-      new lft::HttpServer(uri_to_listen));
-  http_server->open().wait();
+#include "file_handler.h"
 
-  std::cout << "Listening for requests at " << address << std::endl;
-  std::cout << "Press ENTER to exit." << std::endl;
 
-  std::string line;
-  std::getline(std::cin, line);
-  http_server->close().wait();
+int main(int, char**) {
+	// Create a multiplexer for handling requests
+	served::multiplexer mux;
+	// GET /hello
+  lft::FileHandler fh;
+	mux.handle("/upload")
+		.post([&](served::response & response, const served::request & request) {
+			fh.ParseAndWriteHttpRequestBody(request.body());
+			response << "hello world!";
+		});	
+
+	// Create the server and run with 10 handler threads.
+	served::net::server server("127.0.0.1", "3000", mux);
+	server.run(10);
+
+	return (EXIT_SUCCESS);
 }
