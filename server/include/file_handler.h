@@ -1,12 +1,11 @@
 #include <fstream>
 #include <string>
 
-namespace lft {
-constexpr char kBeginningOfContentBorder[] = "\r\n\r\n";
-constexpr char kEndOfContentBorder[] = "----------------------------";
-constexpr uint8_t kBeginningOfContentOffset = 4;
-constexpr uint8_t kEndOfContentOffset = 2;
+#include <boost/uuid/random_generator.hpp>
+#include <boost/uuid/uuid_io.hpp>
+#include <SimpleJSON/json.hpp>
 
+namespace lft {
 class FileHandler {
  public:
   long GetFileSize(std::ifstream *file) {
@@ -23,12 +22,14 @@ class FileHandler {
     return size;
   }
 
-  void ParseAndWriteHttpRequestBody(const std::string& request_body) {
-      size_t position = request_body.find(kBeginningOfContentBorder);
-      std::string parsed_body = request_body.substr(position + kBeginningOfContentOffset);
-      position = parsed_body.rfind(kEndOfContentBorder);
-      parsed_body.erase(position - kEndOfContentOffset);
-      WriteBufferToFile(parsed_body.c_str(), parsed_body.size(), "output");
+  json::JSON ParseAndWriteHttpRequestBody(const std::string &request_body) {
+    json::JSON json_response;
+    boost::uuids::random_generator generate_uuid;
+    const std::string &uuid_string = boost::uuids::to_string(generate_uuid());
+    WriteBufferToFile(request_body.c_str(), request_body.size(), uuid_string);
+    json_response["upload_successful"] = true;
+    json_response["uuid_string"] = uuid_string;
+    return json_response;
   }
 
   void WriteBufferToFile(const char *buffer, long size,
