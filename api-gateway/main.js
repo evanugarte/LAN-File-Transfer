@@ -18,8 +18,6 @@ const CPP_SERVICE_URL = process.env.CPP_SERVICE_URL || 'http://localhost:5001';
 
 function attemptUpload(fileData) {
   return new Promise((resolve, reject) => {
-    console.log('what time it  is');
-    
     fetch(`${CPP_SERVICE_URL}/upload`, {
       method: 'POST',
       headers: {
@@ -29,7 +27,6 @@ function attemptUpload(fileData) {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         resolve(data);
       })
       .catch(err => {
@@ -41,6 +38,8 @@ function attemptUpload(fileData) {
 app.post('/upload', async (req, res) => {
   const fileData = req.files['fileToUpload'].data;
   const uploadServiceResponse = await attemptUpload(fileData);
+  // todo, see https://github.com/evanugarte/LAN-File-Transfer/issues/32
+  // we will use uploadServiceResponse to save file metadata
   console.log('server responded with:', uploadServiceResponse);
   res.sendStatus(200);
 });

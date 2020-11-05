@@ -22,6 +22,6 @@ function install_json_dependencies() {
   curl https://raw.githubusercontent.com/nbsdx/SimpleJSON/master/json.hpp -o json.hpp
 }
 
-# quit_if_script_run_as_root
-# install_served_dependencies
+quit_if_script_run_as_root
+install_served_dependencies
 install_json_dependencies
