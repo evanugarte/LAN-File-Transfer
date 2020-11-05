@@ -3,3 +3,4 @@ server/mongo-c-driver-*
 server/bin/*
 .vscode/
 server/served/*
+server/SimpleJSON/*

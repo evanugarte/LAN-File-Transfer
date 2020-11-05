@@ -8,8 +8,20 @@ function quit_if_script_run_as_root() {
 
 function install_served_dependencies() {
   git clone git@github.com:evanugarte/served.git
+  sudo apt-get install libboost-all-dev
+}
+
+function install_json_dependencies() {
+  if [[ -d "SimpleJSON" ]]; then
+      echo "Directory SimpleJSON exists." 
+  else
+      echo "Error: Directory SimpleJSON does not exist."
+      mkdir SimpleJSON
+  fi
+  cd SimpleJSON
+  curl https://raw.githubusercontent.com/nbsdx/SimpleJSON/master/json.hpp -o json.hpp
 }
 
 quit_if_script_run_as_root
 install_served_dependencies
-
+install_json_dependencies

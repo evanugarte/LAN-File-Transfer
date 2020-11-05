@@ -3,7 +3,7 @@ CXX_FLAGS := -Wall -Wextra -std=c++11 -ggdb
 
 BIN		:= bin
 SRC		:= src/*.cpp served/*.cpp served/mux/*.cpp served/net/*.cpp
-INCLUDE	:= -Iinclude -Iserved -Iserved/mux -Iserved/net
+INCLUDE	:= -Iinclude -Iserved -Iserved/mux -Iserved/net -I.
 LIB		:= lib
 
 LIBRARIES	:= -lboost_system -lpthread
