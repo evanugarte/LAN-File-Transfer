@@ -3,8 +3,8 @@
 #include <string>
 
 #include "file_handler.h"
-#include "multiplexer.hpp"
-#include "net/server.hpp"
+#include "served/multiplexer.hpp"
+#include "served/net/server.hpp"
 
 int main(int, char **) {
   served::multiplexer mux;
