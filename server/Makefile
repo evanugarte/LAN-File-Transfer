@@ -2,8 +2,8 @@ CXX		  := g++
 CXX_FLAGS := -Wall -Wextra -std=c++11 -ggdb
 
 BIN		:= bin
-SRC		:= src/*.cpp served/*.cpp served/mux/*.cpp served/net/*.cpp
-INCLUDE	:= -Iinclude -Iserved -Iserved/mux -Iserved/net -I.
+SRC		:= src/*.cpp $(shell find $(lib) -name *.cpp)
+INCLUDE	:= -Iinclude -Ilib
 LIB		:= lib
 
 LIBRARIES	:= -lboost_system -lpthread
