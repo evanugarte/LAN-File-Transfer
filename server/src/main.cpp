@@ -18,6 +18,14 @@ int main(int, char **) {
         response << stream.str();
       });
 
+  mux.handle("/download/{file_name}").get(
+      [&](served::response &response, const served::request &request) {
+        const std::string &file_name = request.params["file_name"];
+        std::ostringstream buffer;
+        fh.WriteFileToBuffer(buffer, file_name);
+        response << buffer.str();
+      });
+
   served::net::server server("127.0.0.1", "5001", mux);
   server.run(10);
 
