@@ -1,4 +1,5 @@
 #include <fstream>
+#include <sstream>
 #include <string>
 
 #include <boost/uuid/random_generator.hpp>
@@ -39,11 +40,10 @@ class FileHandler {
     file_to_create.close();
   }
 
-  void WriteFileToBuffer(char *buffer, const std::string &file_name) {
-    std::ifstream file_to_read(file_name, std::ifstream::binary);
-    long size = GetFileSize(&file_to_read);
-    file_to_read.read(buffer, size);
-    file_to_read.close();
+  void WriteFileToBuffer(std::ostringstream& buffer,
+                         const std::string &file_name) {
+    std::ifstream file_to_read(file_name);
+    buffer << file_to_read.rdbuf();
   }
 };
 }  // namespace lft
