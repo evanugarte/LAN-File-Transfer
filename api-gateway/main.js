@@ -3,6 +3,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const fetch = require('node-fetch');
+var multer = require('multer'); // v1.0.5
+var upload = multer(); // for parsing multipart/form-data
 
 const app = express();
 
@@ -35,13 +37,46 @@ function attemptUpload(fileData) {
   });
 }
 
+function attemptDownload(fileName) {
+  return new Promise((resolve, reject) => {
+    fetch(`${CPP_SERVICE_URL}/download/${fileName}`)
+      .then(res => resolve(res))
+      .catch(err => {
+        reject('download failed:', err);
+      });
+  });
+}
+
 app.post('/upload', async (req, res) => {
   const fileData = req.files['fileToUpload'].data;
   const uploadServiceResponse = await attemptUpload(fileData);
   // todo, see https://github.com/evanugarte/LAN-File-Transfer/issues/32
   // we will use uploadServiceResponse to save file metadata
   console.log('server responded with:', uploadServiceResponse);
-  res.sendStatus(200);
+  res.send(uploadServiceResponse);
+});
+
+
+app.get('/download', async (req, res) => {
+  const { fileId } = req.query;
+  const downloadServiceResponse =
+    await attemptDownload('ddbf2f9d-3201-42f9-8533-ee926577faf7');
+  console.log('bruh', downloadServiceResponse.body._readableState.buffer.head.data);
+  downloadServiceResponse.body.pipe(res);
+  // res.writeHead(200, {
+  //   'Content-disposition': 'attachment;filename=test',
+  //   'Content-Length': data.length
+  // });
+  // const fs = require('fs');
+  // fs.writeFile("test", data,  "binary",function(err) { });
+
+  // res.end();
+  // downloadServiceResponse.pipe(res);
+  // res.send(downloadServiceResponse.body);
+  // todo, see https://github.com/evanugarte/LAN-File-Transfer/issues/32
+  // we will use uploadServiceResponse to save file metadata
+  // console.log('server responded with:', uploadServiceResponse);
+  // res.sendStatus(200);
 });
 
 app.listen(SERVER_PORT, () =>
