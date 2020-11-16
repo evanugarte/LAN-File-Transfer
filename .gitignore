@@ -4,3 +4,5 @@ server/bin/*
 .vscode/
 server/lib/*
 !server/lib/keep
+server/uploads/*
+!server/uploads/keep
