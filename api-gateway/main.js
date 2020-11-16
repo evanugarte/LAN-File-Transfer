@@ -3,8 +3,6 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const fetch = require('node-fetch');
-var multer = require('multer'); // v1.0.5
-var upload = multer(); // for parsing multipart/form-data
 
 const app = express();
 
