@@ -22,8 +22,12 @@ int main(int, char **) {
       [&](served::response &response, const served::request &request) {
         const std::string &file_name = request.params["file_name"];
         std::ostringstream buffer;
-        fh.WriteFileToBuffer(buffer, file_name);
-        response << buffer.str();
+        const bool &read_result = fh.WriteFileToBuffer(buffer, file_name);
+        if (read_result) {
+          response << buffer.str();
+        } else {
+          served::response::stock_reply(404, response);
+        }
       });
 
   served::net::server server("127.0.0.1", "5001", mux);
