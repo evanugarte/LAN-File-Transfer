@@ -3,10 +3,12 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const { FileApiHandler } = require('./FileApiHandler');
+const { LoggingApiHandler } = require('./LoggingApiHandler');
 
 
 const UPLOAD_ENDPOINT = '/upload';
 const DOWNLOAD_ENDPOINT = '/download';
+const FILES_ENDPOINT = '/files';
 
 class ApiGatewayServer {
   constructor(port=5000) {
@@ -23,18 +25,22 @@ class ApiGatewayServer {
   startServer() {
     this.app.post(UPLOAD_ENDPOINT, this.uploadEndpointHandler);
     this.app.get(DOWNLOAD_ENDPOINT, this.downloadEndpointHandler);
+    this.app.get(FILES_ENDPOINT, this.filesEndpointHandler);
     this.app.listen(this.port, () =>
       console.log(`App is listening on port ${this.port}.`)
     );
   }
 
   async uploadEndpointHandler(req, res) {
-    const fileData = req.files['fileToUpload'].data;
+    const { name, size, data } = req.files['fileToUpload'];
     const fileApiHandler = new FileApiHandler();
-    const uploadServiceResponse = await fileApiHandler.attemptUpload(fileData);
-    // todo, see https://github.com/evanugarte/LAN-File-Transfer/issues/32
-    // we will use uploadServiceResponse to save file metadata
-    console.log('server responded with:', uploadServiceResponse);
+    const uploadServiceResponse = await fileApiHandler.attemptUpload(data);
+    const loggingApiHandler = new LoggingApiHandler();
+    loggingApiHandler.storeFileMetadata({
+      fileName: name,
+      size,
+      uuid: uploadServiceResponse.uuid_string
+    });
     res.send(uploadServiceResponse);
   }
 
@@ -43,7 +49,15 @@ class ApiGatewayServer {
     const fileApiHandler = new FileApiHandler();
     const downloadServiceResponse =
       await fileApiHandler.attemptDownload(fileId);
+    const loggingApiHandler = new LoggingApiHandler();
+    loggingApiHandler.logDownload(fileId);
     downloadServiceResponse.body.pipe(res);
+  }
+
+  async filesEndpointHandler(req, res) {
+    const loggingApiHandler = new LoggingApiHandler();
+    const files = await loggingApiHandler.getAllFiles();
+    res.status(200).send(files);
   }
 }
 
