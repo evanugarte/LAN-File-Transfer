@@ -16,4 +16,6 @@ COPY main.js .
 
 EXPOSE 5002
 
+ENV DOCKER true
+
 CMD ["npm", "run", "start"]

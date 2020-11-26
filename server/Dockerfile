@@ -1,16 +1,24 @@
-FROM gcc:4.9
+FROM frolvlad/alpine-gxx
+
+RUN apk add curl boost-dev git bash make
 
 WORKDIR /cpp_server
 
-COPY include .
+COPY include include/
 
-COPY src .
+COPY src src/
 
-COPY setup .
+COPY setup setup
 
-COPY Makefile .
+COPY Makefile Makefile
 
 RUN mkdir /cpp_server/lib
+
+RUN mkdir /cpp_server/uploads
+
+RUN mkdir /cpp_server/bin
+
+RUN chmod +x ./setup
 
 RUN ./setup
 

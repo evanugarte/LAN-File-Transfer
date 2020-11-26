@@ -38,7 +38,7 @@ class ApiGatewayServer {
     const loggingApiHandler = new LoggingApiHandler();
     loggingApiHandler.storeFileMetadata({
       fileName: name,
-      size,
+      fileSize: size,
       uuid: uploadServiceResponse.uuid_string
     });
     res.send(uploadServiceResponse);
