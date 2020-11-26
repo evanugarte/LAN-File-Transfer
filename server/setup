@@ -1,14 +1,17 @@
 #!/bin/bash
 function quit_if_script_run_as_root() {
-  if [[ $EUID -eq 0 ]]; then
+  #!/bin/bash
+  if [ ! -f /.dockerenv && $EUID -eq 0 ]; then
     echo "Hey don't use sudo thats our job"
     exit 1
   fi
 }
 
 function install_served_dependencies() {
-  git clone git@github.com:evanugarte/served.git
-  sudo apt-get install libboost-all-dev
+  git clone https://github.com/evanugarte/served.git
+  if [ ! -f /.dockerenv ]; then
+    sudo apt-get install libboost-all-dev
+  fi
 }
 
 function install_json_dependencies() {

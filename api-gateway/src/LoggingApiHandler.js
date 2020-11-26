@@ -5,7 +5,7 @@ const NODE_SERVICE_URL =
 
 
 class LoggingApiHandler {
-  storeFileMetadata({ fileName, size, uuid }) {
+  storeFileMetadata({ fileName, fileSize, uuid }) {
     return new Promise((resolve, reject) => {
       fetch(`${NODE_SERVICE_URL}/upload`, {
         method: 'POST',
@@ -13,7 +13,7 @@ class LoggingApiHandler {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          fileName, size, uuid
+          fileName, fileSize, uuid
         })
       })
         .then(() => {

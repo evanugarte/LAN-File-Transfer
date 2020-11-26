@@ -1,4 +1,6 @@
 const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { LoggingHandler } = require('./LoggingHandler');
 
@@ -11,6 +13,9 @@ class LoggingServer {
   constructor(port=5002) {
     this.port = port;
     this.app = express();
+    this.app.use(cors());
+    this.app.use(bodyParser.json());
+    this.app.use(bodyParser.urlencoded({ extended: true }));
   }
 
   startServer() {
@@ -24,9 +29,11 @@ class LoggingServer {
   }
 
   connectToMongoDb() {
+    const dockerEnv = process.env.DOCKER === 'true';
+    const mongoDbUrl = dockerEnv ? 'mongo' : 'localhost';
     this.mongoose = mongoose;
       this.mongoose
-        .connect(`mongodb://localhost/lft`, {
+        .connect(`mongodb://${mongoDbUrl}/lft`, {
           promiseLibrary: require('bluebird'),
           useNewUrlParser: true,
           useUnifiedTopology: true,
@@ -39,14 +46,14 @@ class LoggingServer {
 
   async saveFileToMongoDb(req, res) {
     const loggingHandler = new LoggingHandler();
-    loggingHandler.storeFileInformation({ ...req.query })
+    loggingHandler.storeFileInformation({ ...req.body })
       .then(() => res.sendStatus(200))
       .catch(() => res.sendStatus(400));
   }
 
   async logDownload(req, res) {
     const loggingHandler = new LoggingHandler();
-    loggingHandler.logDownload(req.query.fileId)
+    loggingHandler.logDownload(req.body.fileId)
       .then(() => res.sendStatus(200))
       .catch(() => res.sendStatus(400));
   }

@@ -30,7 +30,7 @@ int main(int, char **) {
         }
       });
 
-  served::net::server server("127.0.0.1", "5001", mux);
+  served::net::server server("0.0.0.0", "5001", mux);
   server.run(10);
 
   return (EXIT_SUCCESS);
