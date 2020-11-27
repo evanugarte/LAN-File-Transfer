@@ -2,7 +2,6 @@ const FileLog = require('../models/FileLog');
 
 class LoggingHandler {
   storeFileInformation({fileName, uuid, fileSize}) {
-    console.log({fileName, uuid, fileSize});
     const newFile = new FileLog({
       fileName,
       uuid,
