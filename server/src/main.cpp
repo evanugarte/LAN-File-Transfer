@@ -31,6 +31,7 @@ int main(int, char **) {
       });
 
   served::net::server server("0.0.0.0", "5001", mux);
+  std::cout << "Starting server to listen on port 5001..." << std::endl;
   server.run(10);
 
   return (EXIT_SUCCESS);

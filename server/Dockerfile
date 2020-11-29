@@ -1,4 +1,4 @@
-FROM frolvlad/alpine-gxx
+FROM frolvlad/alpine-gxx as build_stage
 
 RUN apk add curl boost-dev git bash make
 
@@ -22,6 +22,14 @@ RUN chmod +x ./setup
 
 RUN ./setup
 
+RUN make all
+
+FROM frolvlad/alpine-gxx 
+
+WORKDIR /cpp_server
+
+COPY --from=build_stage /cpp_server/bin/main /cpp_server/main
+
 EXPOSE 5001
 
-CMD ["make", "run"]
+CMD ["./main"]
