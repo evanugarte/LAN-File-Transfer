@@ -1,10 +1,12 @@
 import axios from 'axios';
 
+const API_GATEWAY_URL = 'http://localhost:5000';
+
 export async function handleUpload(fileData) {
   return new Promise((resolve, reject) => {
     const formData = new FormData();
     formData.append('fileToUpload', fileData);
-    axios.post('/upload', formData, {
+    axios.post(API_GATEWAY_URL + '/api/upload', formData, {
       onUploadProgress: (ProgressEvent) => {
         // todo refine progress bar for cool upload
         // const progress = Math.round(
@@ -17,7 +19,7 @@ export async function handleUpload(fileData) {
   }
 
 export async function handleDownload(fileId, fileName) {
-  fetch(`/download?fileId=${fileId}`)
+  fetch(API_GATEWAY_URL + `/api/download?fileId=${fileId}`)
     .then(res => res.blob())
     .then(blob => {
       let url = window.URL.createObjectURL(blob);
@@ -33,7 +35,7 @@ export async function handleDownload(fileId, fileName) {
 
 export async function getAllFiles() {
   return new Promise((resolve, reject)=> {
-    fetch(`/files`)
+    fetch(API_GATEWAY_URL + `/api/files`)
     .then((res) => res.json())
     .then((data) => resolve(data))
     .catch((err) => reject(err));
