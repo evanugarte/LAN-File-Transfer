@@ -38,6 +38,18 @@ services:
       - mongo
     networks:
       - lft-local
+  lft-website:
+    container_name: lft-website
+    build:
+      context: ./website
+      dockerfile: ./Dockerfile
+    ports:
+      - '3000:80'
+    restart: 'on-failure'
+    links:
+      - lft-api-gateway
+    networks:
+      - lft-local
   mongo:
     container_name: mongo
     image: mongo

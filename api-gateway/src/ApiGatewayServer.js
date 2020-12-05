@@ -6,9 +6,9 @@ const { FileApiHandler } = require('./FileApiHandler');
 const { LoggingApiHandler } = require('./LoggingApiHandler');
 
 
-const UPLOAD_ENDPOINT = '/upload';
-const DOWNLOAD_ENDPOINT = '/download';
-const FILES_ENDPOINT = '/files';
+const UPLOAD_ENDPOINT = '/api/upload';
+const DOWNLOAD_ENDPOINT = '/api/download';
+const FILES_ENDPOINT = '/api/files';
 
 class ApiGatewayServer {
   constructor(port=5000) {
