@@ -45,6 +45,26 @@ class LoggingApiHandler {
     });
   }
 
+  handleDelete(fileToDelete) {
+    return new Promise((resolve, reject) => {
+      fetch(`${NODE_SERVICE_URL}/delete`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fileToDelete
+        })
+      })
+        .then(() => {
+          resolve(true);
+        })
+        .catch(err => {
+          reject('logging download failed:', err);
+        });
+    });
+  }
+
   getAllFiles() {
     return new Promise((resolve, reject) => {
       fetch(`${NODE_SERVICE_URL}/files`)

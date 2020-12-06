@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 import FileUpload from './FileUpload';
-import { handleDownload, getAllFiles } from './ApiFunctions/ApiHandler';
+import {
+  handleDownload,
+  getAllFiles,
+  handleDelete,
+} from './ApiFunctions/ApiHandler';
 
 function File({fileName, fileSize, uploadDate, uuid}) {
   return (
@@ -16,6 +20,16 @@ function File({fileName, fileSize, uploadDate, uuid}) {
           }}
           >
           download
+        </button>
+      </td>
+      <td>
+        <button
+          style={{ backgroundColor: 'red', color: 'wheat' }}
+          onClick={() => {
+            handleDelete(uuid)
+          }}
+          >
+          delete
         </button>
       </td>
     </tr>

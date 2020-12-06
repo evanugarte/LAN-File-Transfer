@@ -1,3 +1,4 @@
+#include <filesystem>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -42,6 +43,12 @@ class FileHandler {
       buffer << file_to_read.rdbuf();
       return true;
     }
+  }
+
+  bool DeleteFile(const std::string &file_to_delete) {
+    bool delete_successful =
+      std::filesystem::remove(GenerateFilePath(file_to_delete));
+    return delete_successful;
   }
  private:
   static inline std::string GenerateFilePath(const std::string & file_name) {

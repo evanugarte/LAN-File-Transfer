@@ -32,6 +32,18 @@ class FileApiHandler {
         });
     });
   }
+
+  handleDelete(fileToDelete) {
+    return new Promise((resolve, reject) => {
+      fetch(`${CPP_SERVICE_URL}/delete/${fileToDelete}`, {
+        method: 'DELETE'
+      })
+        .then(res => resolve(res))
+        .catch(err => {
+          reject('delete failed:', err);
+        });
+    });
+  }
 }
 
 module.exports = { FileApiHandler };

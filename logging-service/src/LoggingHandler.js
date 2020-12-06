@@ -32,6 +32,19 @@ class LoggingHandler {
         });
     });
   }
+
+  handleDelete(fileToDelete) {
+    return new Promise((resolve, reject) => {
+      FileLog.deleteOne({ uuid: fileToDelete },
+        function(err, response) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(response);
+          }
+        });
+    });
+  }
   
     getAllFiles() {
       return new Promise((resolve, reject) => {

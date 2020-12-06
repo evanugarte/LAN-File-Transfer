@@ -8,6 +8,7 @@ const { LoggingApiHandler } = require('./LoggingApiHandler');
 
 const UPLOAD_ENDPOINT = '/api/upload';
 const DOWNLOAD_ENDPOINT = '/api/download';
+const DELETE_ENDPOINT = '/api/delete';
 const FILES_ENDPOINT = '/api/files';
 
 class ApiGatewayServer {
@@ -25,6 +26,7 @@ class ApiGatewayServer {
   startServer() {
     this.app.post(UPLOAD_ENDPOINT, this.uploadEndpointHandler);
     this.app.get(DOWNLOAD_ENDPOINT, this.downloadEndpointHandler);
+    this.app.delete(DELETE_ENDPOINT, this.deleteEndpointHandler);
     this.app.get(FILES_ENDPOINT, this.filesEndpointHandler);
     this.app.listen(this.port, () =>
       console.log(`App is listening on port ${this.port}.`)
@@ -52,6 +54,15 @@ class ApiGatewayServer {
     const loggingApiHandler = new LoggingApiHandler();
     loggingApiHandler.logDownload(fileId);
     downloadServiceResponse.body.pipe(res);
+  }
+
+  async deleteEndpointHandler(req, res) {
+    const { fileToDelete } = req.body;
+    const fileApiHandler = new FileApiHandler();
+    fileApiHandler.handleDelete(fileToDelete);
+    const loggingApiHandler = new LoggingApiHandler();
+    loggingApiHandler.handleDelete(fileToDelete);
+    res.sendStatus(200);
   }
 
   async filesEndpointHandler(req, res) {

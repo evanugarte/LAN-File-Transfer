@@ -30,6 +30,17 @@ int main(int, char **) {
         }
       });
 
+  mux.handle("/delete/{file_to_delete}").del(
+      [&](served::response &response, const served::request &request) {
+        const std::string &file_to_delete = request.params["file_to_delete"];
+        const bool &read_result = fh.DeleteFile(file_to_delete);
+        if (read_result) {
+          served::response::stock_reply(200, response);
+        } else {
+          served::response::stock_reply(404, response);
+        }
+      });
+
   served::net::server server("0.0.0.0", "5001", mux);
   std::cout << "Starting server to listen on port 5001..." << std::endl;
   server.run(10);
