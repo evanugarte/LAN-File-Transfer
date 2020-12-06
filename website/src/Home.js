@@ -6,12 +6,13 @@ import {
   getAllFiles,
   handleDelete,
 } from './ApiFunctions/ApiHandler';
+import { humanizeFileSize } from './helpers/humanizeFileSize'
 
 function File({fileName, fileSize, uploadDate, uuid}) {
   return (
     <tr>
       <td>{fileName}</td>
-      <td>{fileSize}</td>
+      <td>{humanizeFileSize(fileSize)}</td>
       <td>{uploadDate}</td>
       <td>
         <button
