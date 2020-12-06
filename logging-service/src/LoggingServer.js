@@ -7,6 +7,7 @@ const { LoggingHandler } = require('./LoggingHandler');
 
 const UPLOAD_ENDPOINT = '/upload';
 const DOWNLOAD_ENDPOINT = '/download';
+const DELETE_ENDPOINT = '/delete';
 const ALL_FILES_ENDPOINT = '/files';
 
 class LoggingServer {
@@ -21,6 +22,7 @@ class LoggingServer {
   startServer() {
     this.app.post(UPLOAD_ENDPOINT, this.saveFileToMongoDb);
     this.app.post(DOWNLOAD_ENDPOINT, this.logDownload);
+    this.app.delete(DELETE_ENDPOINT, this.handleDelete);
     this.app.get(ALL_FILES_ENDPOINT, this.getAllFles);
     this.app.listen(this.port, () => {
       this.connectToMongoDb();
@@ -54,6 +56,13 @@ class LoggingServer {
   async logDownload(req, res) {
     const loggingHandler = new LoggingHandler();
     loggingHandler.logDownload(req.body.fileId)
+      .then(() => res.sendStatus(200))
+      .catch(() => res.sendStatus(400));
+  }
+
+  async handleDelete(req, res) {
+    const loggingHandler = new LoggingHandler();
+    loggingHandler.handleDelete(req.body.fileToDelete)
       .then(() => res.sendStatus(200))
       .catch(() => res.sendStatus(400));
   }
