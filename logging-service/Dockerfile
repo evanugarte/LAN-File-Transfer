@@ -1,21 +1,33 @@
-FROM node:alpine
+FROM debian:latest as build_stage
 
-WORKDIR /logging_service
+WORKDIR /cpp_server
 
-COPY package.json .
+RUN apt-get update \
+  && apt-get install -y wget cmake git make g++ curl python3 \
+  && apt-get install sudo -y
 
-COPY package-lock.json .
+WORKDIR /cpp_server
 
-RUN npm install --production
+COPY include include/
 
-COPY src/ src/
+COPY src src/
 
-COPY models/ models/
+COPY setup setup
 
-COPY main.js .
+COPY Makefile Makefile
+
+RUN mkdir /cpp_server/lib
+
+RUN mkdir /cpp_server/uploads
+
+RUN mkdir /cpp_server/bin
+
+RUN chmod +x ./setup
+
+RUN ./setup
 
 EXPOSE 5002
 
-ENV DOCKER true
+RUN make all
 
-CMD ["npm", "run", "start"]
+CMD ["./bin/ main"]

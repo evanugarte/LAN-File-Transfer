@@ -51,7 +51,7 @@ export async function getAllFiles() {
   return new Promise((resolve, reject)=> {
     fetch(API_GATEWAY_URL + `/api/files`)
     .then((res) => res.json())
-    .then((data) => resolve(data))
+    .then((data) => resolve(data.files))
     .catch((err) => reject(err));
   });
 }
