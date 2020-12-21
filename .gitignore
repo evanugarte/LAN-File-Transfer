@@ -1,8 +1,8 @@
 node_modules/
-server/mongo-c-driver-*
-server/bin/*
+**/mongo-c-driver-*
+**/bin/*
 .vscode/
-server/lib/*
-!server/lib/keep
-server/uploads/*
-!server/uploads/keep
+**/lib/*
+!*lib/keep
+**/uploads/*
+!*uploads/keep

@@ -13,7 +13,7 @@ function File({fileName, fileSize, uploadDate, uuid}) {
     <tr>
       <td>{fileName}</td>
       <td>{humanizeFileSize(fileSize)}</td>
-      <td>{uploadDate}</td>
+      {/* <td>{uploadDate}</td> */}
       <td>
         <button
           onClick={() => {
@@ -51,17 +51,22 @@ export default function Home() {
   return (
     <div>
       <FileUpload />
-      {uploadedFiles.length ? <h1>heres what you uploaded</h1> : <div />}
-      <table>
-        <tbody>
-          <tr>
-            <th>File Name</th>
-            <th>File Size</th>
-            <th>Upload Date</th>
-          </tr>
-          {uploadedFiles.map((file, index) => <File key={index} {...file} />)}
-        </tbody>
-      </table>
+      {uploadedFiles ?
+        <div>
+          <h1>heres what you uploaded</h1>
+          <table>
+            <tbody>
+              <tr>
+                <th>File Name</th>
+                <th>File Size</th>
+                <th>Upload Date</th>
+              </tr>
+              {uploadedFiles.map((file, index) => <File key={index} {...file} />)}
+            </tbody>
+          </table>
+        </div>
+        :
+        <div />}
     </div>
   );
 }

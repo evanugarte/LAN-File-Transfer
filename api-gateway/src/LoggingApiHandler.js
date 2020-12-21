@@ -7,14 +7,8 @@ const NODE_SERVICE_URL =
 class LoggingApiHandler {
   storeFileMetadata({ fileName, fileSize, uuid }) {
     return new Promise((resolve, reject) => {
-      fetch(`${NODE_SERVICE_URL}/upload`, {
+      fetch(`${NODE_SERVICE_URL}/upload/${fileName}/${uuid}/${fileSize}`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          fileName, fileSize, uuid
-        })
       })
         .then(() => {
           resolve(true);
@@ -27,14 +21,8 @@ class LoggingApiHandler {
 
   logDownload(fileId) {
     return new Promise((resolve, reject) => {
-      fetch(`${NODE_SERVICE_URL}/download`, {
+      fetch(`${NODE_SERVICE_URL}/download/${fileId}`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          fileId
-        })
       })
         .then(() => {
           resolve(true);
@@ -47,14 +35,8 @@ class LoggingApiHandler {
 
   handleDelete(fileToDelete) {
     return new Promise((resolve, reject) => {
-      fetch(`${NODE_SERVICE_URL}/delete`, {
+      fetch(`${NODE_SERVICE_URL}/delete/${fileToDelete}`, {
         method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          fileToDelete
-        })
       })
         .then(() => {
           resolve(true);
