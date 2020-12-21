@@ -10,9 +10,9 @@
 #include "served/net/server.hpp"
 
 namespace lft {
-constexpr char kUploadEndpoint[] = "/upload/{file_name}/{uuid}/{file_size}";
-constexpr char kDownloadEndpoint[] = "/download/{file_id}";
-constexpr char kDeleteEndpoint[] = "/delete/{file_id}";
+constexpr char kUploadEndpoint[] = "/upload";
+constexpr char kDownloadEndpoint[] = "/download";
+constexpr char kDeleteEndpoint[] = "/delete";
 constexpr char kAllFilesEndpoint[] = "/files";
 constexpr char kIpAddress[] = "0.0.0.0";
 constexpr char kPort[] = "5002";
@@ -22,13 +22,11 @@ class HttpServer {
 
   auto SaveFileToMongoDb() {
     return [&](served::response &response, const served::request &request) {
-      const std::string &file_name = request.params["file_name"];
-      const std::string &uuid= request.params["uuid"];
-      const std::string &file_size = request.params["file_size"];
+      json::JSON request_body = json::JSON::Load(request.body());
       MongoDbHandler mhandler;
-      std::cout << uuid << file_name <<  file_size<< std::endl;
-      bool insert_successful = true;
-          mhandler.StoreFileInformation(file_name, uuid, file_size);
+      bool insert_successful = mhandler.StoreFileInformation(
+          request_body["fileName"].ToString(), request_body["uuid"].ToString(),
+          std::to_string(request_body["fileSize"].ToInt()));
       insert_successful ? served::response::stock_reply(200, response)
                         : served::response::stock_reply(400, response);
     };
@@ -36,22 +34,23 @@ class HttpServer {
 
   auto LogDownload() {
     return [&](served::response &response, const served::request &request) {
-      const std::string &file_id = request.params["file_id"];
+      json::JSON request_body = json::JSON::Load(request.body());
       MongoDbHandler mhandler;
-      bool insert_successful = mhandler.LogDownload(file_id);
-      // std::cout << "LogDownload called, " << file_id << std::endl;
-      insert_successful ? served::response::stock_reply(200, response)
-                     : served::response::stock_reply(400, response);
+      bool update_successful =
+          mhandler.LogDownload(request_body["fileId"].ToString());
+      update_successful ? served::response::stock_reply(200, response)
+                        : served::response::stock_reply(400, response);
     };
   }
 
   auto DeleteHandler() {
     return [&](served::response &response, const served::request &request) {
-      const std::string &file_id = request.params["file_id"];
+      json::JSON request_body = json::JSON::Load(request.body());
       MongoDbHandler mhandler;
-      mhandler.HandleDelete(file_id);
-      bool delete_successful = true;
-      served::response::stock_reply(200, response);
+      bool delete_successful =
+          mhandler.HandleDelete(request_body["fileId"].ToString());
+      delete_successful ? served::response::stock_reply(200, response)
+                        : served::response::stock_reply(400, response);
     };
   }
 
@@ -65,14 +64,14 @@ class HttpServer {
   void InitializeEndpoints() {
     multiplexer.handle(kUploadEndpoint).post(SaveFileToMongoDb());
     multiplexer.handle(kDownloadEndpoint).post(LogDownload());
-    multiplexer.handle(kDeleteEndpoint).del(DeleteHandler());
+    multiplexer.handle(kDeleteEndpoint).post(DeleteHandler());
     multiplexer.handle(kAllFilesEndpoint).get(GetAllFiles());
   }
 
   void StartServer() {
     mongocxx::instance instance;
     served::net::server server(kIpAddress, kPort, multiplexer);
-    std::cout << "Starting server to listen on port 5001..." << std::endl;
+    std::cout << "Starting server to listen on port 5002..." << std::endl;
     server.run(10);
   }
 
