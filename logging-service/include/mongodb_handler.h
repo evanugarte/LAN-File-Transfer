@@ -8,8 +8,8 @@
 #include "bsoncxx/json.hpp"
 #include "mongocxx/client.hpp"
 #include "mongocxx/database.hpp"
-#include "mongocxx/v_noabi/mongocxx/result/delete.hpp"
 #include "mongocxx/uri.hpp"
+#include "mongocxx/v_noabi/mongocxx/result/delete.hpp"
 
 namespace lft {
 constexpr char kMongoDbUri[] = "mongodb://localhost:27017";
@@ -45,7 +45,7 @@ class MongoDbHandler {
         builder << "uuid" << file_id << bsoncxx::builder::stream::finalize;
     bsoncxx::document::value update_doc =
         builder << "$inc" << bsoncxx::builder::stream::open_document
-                << "download_count" << 1
+                << "downloadCount" << 1
                 << bsoncxx::builder::stream::close_document
                 << bsoncxx::builder::stream::finalize;
     collection.update_one(std::move(query_doc), std::move(update_doc));
