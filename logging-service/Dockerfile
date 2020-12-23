@@ -1,4 +1,4 @@
-FROM debian:latest as build_stage
+FROM repo.treescale.com/kafumji/lft-mongocxx-base
 
 WORKDIR /cpp_server
 
@@ -24,7 +24,7 @@ RUN mkdir /cpp_server/bin
 
 RUN chmod +x ./setup
 
-RUN ./setup
+RUN ["./setup", "--type", "docker"]
 
 EXPOSE 5002
 
