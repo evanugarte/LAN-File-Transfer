@@ -30,4 +30,4 @@ EXPOSE 5002
 
 RUN make all
 
-CMD ["./bin/ main"]
+CMD ["./bin/main"]
