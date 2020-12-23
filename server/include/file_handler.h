@@ -48,10 +48,14 @@ class FileHandler {
   }
 
   bool DeleteFile(const std::string &file_to_delete) {
-    bool delete_successful =
-      std::filesystem::remove(GenerateFilePath(file_to_delete));
+    bool delete_successful = false;
+    if (std::filesystem::exists(GenerateFilePath(file_to_delete))) {
+      delete_successful =
+          std::filesystem::remove(GenerateFilePath(file_to_delete));
+    }
     return delete_successful;
   }
+
  private:
   static inline std::string GenerateFilePath(const std::string & file_name) {
     return kUploadDirectrory + file_name;

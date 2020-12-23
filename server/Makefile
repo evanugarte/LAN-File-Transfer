@@ -1,4 +1,4 @@
-CXX		  := g++
+CXX		  := g++-8
 CXX_FLAGS := -Wall -Wextra -std=c++17 -ggdb
 
 BIN		:= bin
@@ -6,7 +6,7 @@ SRC		:= src/*.cpp $(shell find $(lib) -name *.cpp)
 INCLUDE	:= -Iinclude -Ilib
 LIB		:= lib
 
-LIBRARIES	:= -lboost_system -lpthread
+LIBRARIES	:= -lboost_system -lpthread -lstdc++fs
 EXECUTABLE	:= main
 
 

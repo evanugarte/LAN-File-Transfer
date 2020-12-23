@@ -51,7 +51,6 @@ function install_json_dependencies() {
 function main() {
   quit_if_script_run_as_root
   install_mongocxx_dependencies
-  ls && pwd
   cd lib
   install_served_dependencies
   install_json_dependencies
