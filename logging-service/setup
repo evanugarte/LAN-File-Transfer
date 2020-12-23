@@ -50,11 +50,27 @@ function install_json_dependencies() {
 
 function main() {
   quit_if_script_run_as_root
-  install_mongocxx_dependencies
-  cd lib
-  install_served_dependencies
-  install_json_dependencies
-  cd ..
+  if [[ "$1" == "-t" || "$1" == "--type" && ! -z $2 ]]; then
+    if [ "$2" == "base" ]; then
+      # if we are setting up the base image
+      echo "Installing mongocxx dependencies only..."
+      install_mongocxx_dependencies
+    elif [ "$2" == "docker" ]; then
+      # if we are building the image derived from the base
+      echo "Installing all dependencies except mongocxx..."
+      cd lib
+      install_served_dependencies
+      install_json_dependencies
+      cd ..
+    fi
+  else
+    echo "Defaulting to install all dependencies..."
+    install_mongocxx_dependencies
+    cd lib
+    install_served_dependencies
+    install_json_dependencies
+    cd ..
+  fi
 }
 
-main
+main $1 $2

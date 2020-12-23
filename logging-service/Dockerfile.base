@@ -1,0 +1,13 @@
+FROM debian:latest as build_stage
+
+WORKDIR /cpp_server
+
+RUN apt-get update \
+  && apt-get install -y wget cmake git make g++ python3 \
+  && apt-get install sudo -y
+
+WORKDIR /cpp_server
+
+COPY setup setup
+
+RUN ["./setup", "--type", "base"]
