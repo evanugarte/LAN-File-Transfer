@@ -58,7 +58,13 @@ services:
     ports: 
       - '27017:27017'
     networks:
-      - lft-local
+      lft-local:
+        ipv4_address: 172.16.0.1
+    command: mongod --bind_ip 127.0.0.1,172.16.0.1
 networks:
   lft-local:
-      driver: bridge
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.0.0/24
+          gateway: 172.16.0.254

@@ -6,8 +6,6 @@ RUN apt-get update \
   && apt-get install -y wget cmake git make g++ curl python3 \
   && apt-get install sudo -y
 
-WORKDIR /cpp_server
-
 COPY include include/
 
 COPY src src/
