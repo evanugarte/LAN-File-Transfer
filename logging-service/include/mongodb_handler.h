@@ -12,7 +12,7 @@
 #include "mongocxx/v_noabi/mongocxx/result/delete.hpp"
 
 namespace lft {
-constexpr char kMongoDbUri[] = "mongodb://localhost:27017";
+constexpr char kMongoDbUri[] = "mongodb://172.16.0.1:27017";
 constexpr char kDatabaseName[] = "lft";
 constexpr char kFileLogCollectionName[] = "FileLogs";
 

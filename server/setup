@@ -1,7 +1,6 @@
 #!/bin/bash
 function quit_if_script_run_as_root() {
-  #!/bin/bash
-  if [ ! -f /.dockerenv && $EUID -eq 0 ]; then
+  if [[ ! -f /.dockerenv && $EUID -eq 0 ]]; then
     echo "Hey don't use sudo thats our job"
     exit 1
   fi
@@ -9,7 +8,7 @@ function quit_if_script_run_as_root() {
 
 function install_served_dependencies() {
   git clone https://github.com/evanugarte/served.git
-  if [ ! -f /.dockerenv ]; then
+  if [[ ! -f /.dockerenv ]]; then
     sudo apt-get install libboost-all-dev
   fi
 }
