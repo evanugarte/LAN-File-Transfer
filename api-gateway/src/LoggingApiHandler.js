@@ -1,13 +1,13 @@
 const fetch = require('node-fetch');
 
-const NODE_SERVICE_URL =
-  process.env.NODE_SERVICE_URL || 'http://localhost:5002';
+const LOGGING_SERVICE_URL =
+  process.env.LOGGING_SERVICE_URL || 'http://localhost:5002';
 
 
 class LoggingApiHandler {
   storeFileMetadata({ fileName, fileSize, uuid }) {
     return new Promise((resolve, reject) => {
-      fetch(`${NODE_SERVICE_URL}/upload`, {
+      fetch(`${LOGGING_SERVICE_URL}/upload`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ class LoggingApiHandler {
 
   logDownload(fileId) {
     return new Promise((resolve, reject) => {
-      fetch(`${NODE_SERVICE_URL}/download/`, {
+      fetch(`${LOGGING_SERVICE_URL}/download/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ class LoggingApiHandler {
 
   handleDelete(fileId) {
     return new Promise((resolve, reject) => {
-      fetch(`${NODE_SERVICE_URL}/delete`, {
+      fetch(`${LOGGING_SERVICE_URL}/delete`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ class LoggingApiHandler {
 
   getAllFiles() {
     return new Promise((resolve, reject) => {
-      fetch(`${NODE_SERVICE_URL}/files`)
+      fetch(`${LOGGING_SERVICE_URL}/files`)
         .then(res => res.json())
         .then(data => resolve(data))
         .catch(err => {
