@@ -50,8 +50,16 @@ export async function handleDelete(fileId) {
 export async function getAllFiles() {
   return new Promise((resolve, reject)=> {
     fetch(API_GATEWAY_URL + `/api/files`)
-    .then((res) => res.json())
-    .then((data) => resolve(data.files))
-    .catch((err) => reject(err));
+      .then((res) => res.json())
+      .then((data) => {
+        let result = [];
+        if (data && data.files) {
+          data.files.forEach((file) => {
+            result.push(JSON.parse(file));
+          });
+        }
+        resolve(result);
+      })
+      .catch((err) => reject(err));
   });
 }

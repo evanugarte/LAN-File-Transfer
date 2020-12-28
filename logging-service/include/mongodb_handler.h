@@ -4,6 +4,7 @@
 #include <numeric>
 #include <string>
 
+#include "SimpleJSON/json.hpp"
 #include "bsoncxx/builder/stream/document.hpp"
 #include "bsoncxx/json.hpp"
 #include "mongocxx/client.hpp"
@@ -62,23 +63,17 @@ class MongoDbHandler {
     return true;
   }
 
-  std::string GetAllDocuments() {
+  json::JSON GetAllDocuments() {
     mongocxx::collection collection = db[kFileLogCollectionName];
     mongocxx::cursor cursor = collection.find({});
-
-    std::string s = "";
+    json::JSON result;
+    result["files"] = json::Array();
     if (cursor.begin() != cursor.end()) {
-      auto dash_fold = [](std::string a, bsoncxx::v_noabi::document::view b) {
-        return std::move(a) + "," + bsoncxx::to_json(b);
-      };
-      s = "\"files\": [" +
-          std::accumulate(std::next(cursor.begin()), cursor.end(),
-                          bsoncxx::to_json(*std::move(
-                              cursor.begin())), // start with first element
-                          dash_fold) +
-          "]";
+      for (auto doc : cursor) {
+        result["files"].append(bsoncxx::to_json(doc));
+      }
     }
-    return "{" + s + "}";
+    return result;
   }
 
  private:
