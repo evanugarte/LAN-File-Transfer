@@ -15,9 +15,9 @@ services:
   lft-file-api:
     container_name: lft-file-api
     volumes:
-      - "./server/uploads:/cpp_server/uploads"
+      - "./file-service/uploads:/cpp_server/uploads"
     build:
-      context: ./server
+      context: ./file-service
       dockerfile: ./Dockerfile
     ports: 
       - '5001:5001'
