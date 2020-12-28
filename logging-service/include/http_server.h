@@ -57,7 +57,10 @@ class HttpServer {
   auto GetAllFiles() {
     return [&](served::response &response, const served::request &request) {
       MongoDbHandler mhandler;
-      response << mhandler.GetAllDocuments();
+      const json::JSON &all_documents = mhandler.GetAllDocuments();
+      std::ostringstream stream;
+      stream << all_documents;
+      response << stream.str();
     };
   }
 

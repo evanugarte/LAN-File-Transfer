@@ -36,6 +36,7 @@ function install_mongocxx_dependencies() {
 }
 
 function install_served_dependencies() {
+  rm -rf served
   git clone https://github.com/evanugarte/served.git
   sudo apt-get install -y libboost-all-dev
 }
