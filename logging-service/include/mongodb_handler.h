@@ -21,7 +21,8 @@ class MongoDbHandler {
  public:
   MongoDbHandler()
       : uri(mongocxx::uri(kMongoDbUri)),
-        client(mongocxx::client(uri)), db(client[kDatabaseName]) {}
+        client(mongocxx::client(uri)),
+        db(client[kDatabaseName]) {}
 
   bool StoreFileInformation(const std::string &file_name,
                             const std::string &uuid,
@@ -34,9 +35,11 @@ class MongoDbHandler {
                 << bsoncxx::types::b_date(std::chrono::system_clock::now())
                 << bsoncxx::builder::stream::finalize;
 
-    bsoncxx::stdx::optional<mongocxx::result::insert_one> result =
+    bsoncxx::stdx::optional<mongocxx::result::insert_one> maybe_result =
         collection.insert_one(std::move(doc_value));
-    return true;
+    return (maybe_result ?
+            maybe_result->inserted_id().get_oid().value.to_string().size() != 0
+          : false);
   }
 
   bool LogDownload(const std::string &file_id) {
@@ -49,18 +52,23 @@ class MongoDbHandler {
                 << "downloadCount" << 1
                 << bsoncxx::builder::stream::close_document
                 << bsoncxx::builder::stream::finalize;
-    collection.update_one(std::move(query_doc), std::move(update_doc));
-    return true;
+    bsoncxx::stdx::optional<mongocxx::result::update> maybe_result =
+        collection.update_one(std::move(query_doc), std::move(update_doc));
+    return (maybe_result ?
+            maybe_result->modified_count() != 0
+          : false);
   }
 
-  bool HandleDelete(const std::string& file_id) {
+  bool HandleDelete(const std::string &file_id) {
     mongocxx::collection collection = db[kFileLogCollectionName];
     auto builder = bsoncxx::builder::stream::document{};
     bsoncxx::document::value doc =
         builder << "uuid" << file_id << bsoncxx::builder::stream::finalize;
-    bsoncxx::stdx::optional<mongocxx::result::delete_result> result =
+    bsoncxx::stdx::optional<mongocxx::result::delete_result> maybe_result =
         collection.delete_one(doc.view());
-    return true;
+    return (maybe_result ?
+            maybe_result->deleted_count() != 0
+          : false);
   }
 
   json::JSON GetAllDocuments() {

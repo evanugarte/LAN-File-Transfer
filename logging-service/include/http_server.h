@@ -16,6 +16,7 @@ constexpr char kDeleteEndpoint[] = "/delete";
 constexpr char kAllFilesEndpoint[] = "/files";
 constexpr char kIpAddress[] = "0.0.0.0";
 constexpr char kPort[] = "5002";
+constexpr int kThreads = 10;
 class HttpServer {
  public:
   HttpServer(served::multiplexer multiplexer) : multiplexer(multiplexer) {}
@@ -39,7 +40,7 @@ class HttpServer {
       bool update_successful =
           mhandler.LogDownload(request_body["fileId"].ToString());
       update_successful ? served::response::stock_reply(200, response)
-                        : served::response::stock_reply(400, response);
+                        : served::response::stock_reply(404, response);
     };
   }
 
@@ -50,7 +51,7 @@ class HttpServer {
       bool delete_successful =
           mhandler.HandleDelete(request_body["fileId"].ToString());
       delete_successful ? served::response::stock_reply(200, response)
-                        : served::response::stock_reply(400, response);
+                        : served::response::stock_reply(404, response);
     };
   }
 
@@ -75,7 +76,7 @@ class HttpServer {
     mongocxx::instance instance;
     served::net::server server(kIpAddress, kPort, multiplexer);
     std::cout << "Starting server to listen on port 5002..." << std::endl;
-    server.run(10);
+    server.run(kThreads);
   }
 
  private:
