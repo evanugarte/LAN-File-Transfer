@@ -52,8 +52,9 @@ class ApiGatewayServer {
     const downloadServiceResponse =
       await fileApiHandler.attemptDownload(fileId);
     const loggingApiHandler = new LoggingApiHandler();
-    loggingApiHandler.logDownload(fileId);
-    downloadServiceResponse.body.pipe(res);
+    loggingApiHandler.logDownload(fileId)
+      .then(() => downloadServiceResponse.body.pipe(res))
+      .catch(() => res.sendStatus(404));
   }
 
   async deleteEndpointHandler(req, res) {
@@ -61,8 +62,9 @@ class ApiGatewayServer {
     const fileApiHandler = new FileApiHandler();
     fileApiHandler.handleDelete(fileToDelete);
     const loggingApiHandler = new LoggingApiHandler();
-    loggingApiHandler.handleDelete(fileToDelete);
-    res.sendStatus(200);
+    loggingApiHandler.handleDelete(fileToDelete)
+      .then(() => res.sendStatus(200))
+      .catch(() => res.sendStatus(404));
   }
 
   async filesEndpointHandler(req, res) {

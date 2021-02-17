@@ -16,9 +16,7 @@ class LoggingApiHandler {
           fileName, fileSize, uuid
         })
       })
-        .then(() => {
-          resolve(true);
-        })
+        .then((res) => res.status === 200 ? resolve(true) : reject(false))
         .catch(err => {
           reject('upload failed:', err);
         });
@@ -36,9 +34,7 @@ class LoggingApiHandler {
           fileId
         })
       })
-        .then(() => {
-          resolve(true);
-        })
+        .then((res) => res.status === 200 ? resolve(true) : reject(false))
         .catch(err => {
           reject('logging download failed:', err);
         });
@@ -56,11 +52,9 @@ class LoggingApiHandler {
           fileId
         })
       })
-        .then(() => {
-          resolve(true);
-        })
+        .then((res) => res.status === 200 ? resolve(true) : reject(false))
         .catch(err => {
-          reject('logging download failed:', err);
+          reject('logging delete failed:', err);
         });
     });
   }
