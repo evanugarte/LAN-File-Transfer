@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Home from './Home';
+import LedSign from './LedSign';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Home />
+    <LedSign />
   </React.StrictMode>,
   document.getElementById('root')
 );
