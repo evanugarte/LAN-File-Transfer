@@ -75,8 +75,8 @@ function LedSign(props) {
       backgroundColor,
       textColor,
       borderColor,
-      email: props.user.email,
-      firstName: props.user.firstName
+      email: 'props.user.email',
+      firstName: 'props.user.firstName'
     });
     setRequestSuccessful(!signResponse.error);
     setAwaitingSignResponse(false);
@@ -96,7 +96,7 @@ function LedSign(props) {
   useEffect(() => {
     async function checkSignHealth() {
       setLoading(true);
-      const status = await healthCheck(props.user.firstName);
+      const status = await healthCheck('props.user.firstName');
       if (status && !status.error) {
         setSignHealthy(true);
         const { responseData } = status;
@@ -113,7 +113,7 @@ function LedSign(props) {
       }
       setLoading(false);
     }
-    checkSignHealth(props.user.firstName);
+    checkSignHealth('props.user.firstName');
     // eslint-disable-next-line
   }, [])
 

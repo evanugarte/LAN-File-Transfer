@@ -21,8 +21,9 @@ export async function healthCheck(officerName) {
  */
 export async function updateSignText(signData) {
   let status = {};
+  console.log(signData)
   await axios
-    .post('/LedSign/updateSignText', { ...signData })
+    .post('/', { ...signData })
     .then(res => {
       status = res.data;
     })
