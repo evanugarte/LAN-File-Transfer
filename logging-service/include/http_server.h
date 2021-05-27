@@ -36,11 +36,17 @@ class HttpServer {
   auto LogDownload() {
     return [&](served::response &response, const served::request &request) {
       json::JSON request_body = json::JSON::Load(request.body());
+      const std::string &file_id = request_body["fileId"].ToString();
       MongoDbHandler mhandler;
-      bool update_successful =
-          mhandler.LogDownload(request_body["fileId"].ToString());
-      update_successful ? served::response::stock_reply(200, response)
-                        : served::response::stock_reply(404, response);
+      bool update_successful = mhandler.LogDownload(file_id);
+      if (update_successful) {
+        const json::JSON &all_documents = mhandler.GetFileNameById(file_id);
+        std::ostringstream stream;
+        stream << all_documents;
+        response << stream.str();
+      } else {
+        served::response::stock_reply(404, response);
+      }
     };
   }
 

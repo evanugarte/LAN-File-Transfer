@@ -6,6 +6,7 @@
 
 #include "SimpleJSON/json.hpp"
 #include "bsoncxx/builder/stream/document.hpp"
+#include "bsoncxx/v_noabi/bsoncxx/document/element.hpp"
 #include "bsoncxx/json.hpp"
 #include "mongocxx/client.hpp"
 #include "mongocxx/database.hpp"
@@ -80,6 +81,27 @@ class MongoDbHandler {
       for (auto doc : cursor) {
         result["files"].append(bsoncxx::to_json(doc));
       }
+    }
+    return result;
+  }
+
+  json::JSON GetFileNameById(const std::string &file_id) {
+    mongocxx::collection collection = db[kFileLogCollectionName];
+    auto builder = bsoncxx::builder::stream::document{};
+
+    bsoncxx::document::value doc =
+        builder << "uuid" << file_id << bsoncxx::builder::stream::finalize;
+    mongocxx::options::find options{};
+    options.projection(bsoncxx::builder::basic::make_document(
+        bsoncxx::builder::basic::kvp("fileName", 1)));
+    bsoncxx::stdx::optional<bsoncxx::document::value> maybe_result =
+        collection.find_one(doc.view(), options);
+
+    json::JSON result;
+    if (maybe_result) {
+      result["fileName"] = json::Object();
+      result["fileName"] =
+          json::JSON::Load(bsoncxx::to_json(*maybe_result))["fileName"];
     }
     return result;
   }
