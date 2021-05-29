@@ -51,13 +51,11 @@ export async function getAllFiles() {
     fetch(`/api/files`)
       .then((res) => res.json())
       .then((data) => {
-        let result = [];
         if (data && data.files) {
-          data.files.forEach((file) => {
-            result.push(JSON.parse(file));
-          });
+          resolve(data.files);
+        } else {
+          resolve([]);
         }
-        resolve(result);
       })
       .catch((err) => reject(err));
   });
