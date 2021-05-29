@@ -69,8 +69,16 @@ class ApiGatewayServer {
 
   async filesEndpointHandler(req, res) {
     const loggingApiHandler = new LoggingApiHandler();
-    const files = await loggingApiHandler.getAllFiles();
-    res.status(200).send(files);
+    const { files } = await loggingApiHandler.getAllFiles();
+    let parsedFiles = files.map(file => JSON.parse(file));
+    parsedFiles.forEach((file, index) => {
+      const timestamp = file.uploadDate.$date
+      parsedFiles[index].timestamp = timestamp;
+      parsedFiles[index].uploadDate = new Date(timestamp).toDateString();
+    });
+    res.json({
+      files: parsedFiles
+    });
   }
 }
 

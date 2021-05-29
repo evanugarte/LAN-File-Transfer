@@ -13,7 +13,7 @@ function File({fileName, fileSize, uploadDate, uuid}) {
     <tr>
       <td>{fileName}</td>
       <td>{humanizeFileSize(fileSize)}</td>
-      {/* <td>{uploadDate}</td> */}
+      <td>{uploadDate}</td>
       <td>
         <button
           onClick={() => {
