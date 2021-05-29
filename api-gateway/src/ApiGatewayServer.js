@@ -76,7 +76,6 @@ class ApiGatewayServer {
       parsedFiles[index].timestamp = timestamp;
       parsedFiles[index].uploadDate = new Date(timestamp).toDateString();
     });
-
     res.json({
       files: parsedFiles
     });
