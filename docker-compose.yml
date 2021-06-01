@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
   lft-api-gateway:
     container_name: lft-api-gateway
