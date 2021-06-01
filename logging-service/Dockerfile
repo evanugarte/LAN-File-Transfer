@@ -28,4 +28,6 @@ EXPOSE 5002
 
 RUN make all
 
+ENV MONGODB_URL "mongodb://172.16.0.1:27017"
+
 CMD ["./bin/main"]

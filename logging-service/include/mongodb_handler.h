@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdlib>
 #include <iostream>
 #include <numeric>
 #include <string>
@@ -14,7 +15,9 @@
 #include "mongocxx/v_noabi/mongocxx/result/delete.hpp"
 
 namespace lft {
-constexpr char kMongoDbUri[] = "mongodb://172.16.0.1:27017";
+const char *kMongoDbUri = std::getenv("MONGODB_URL")
+                              ? std::getenv("MONGODB_URL")
+                              : "mongodb://127.0.0.1:27017";
 constexpr char kDatabaseName[] = "lft";
 constexpr char kFileLogCollectionName[] = "FileLogs";
 
