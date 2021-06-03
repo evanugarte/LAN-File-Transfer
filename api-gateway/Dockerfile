@@ -14,8 +14,8 @@ COPY main.js .
 
 EXPOSE 5000
 
-ENV CPP_SERVICE_URL "http://lft-file-api:5001"
+ENV FILE_SERVICE_URL "http://lft-file-api:5001"
 
-ENV NODE_SERVICE_URL "http://lft-logging-api:5002"
+ENV LOGGING_SERVICE_URL "http://lft-logging-api:5002"
 
 CMD ["npm", "run", "start"]
