@@ -3,6 +3,5 @@ node_modules/
 **/bin/*
 .vscode/
 **/lib/*
-!*lib/keep
 **/uploads/*
-!*uploads/keep
+!**/keep
