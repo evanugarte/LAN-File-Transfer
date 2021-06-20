@@ -9,10 +9,10 @@ function LedSign(props) {
   const [loading, setLoading] = useState(true);
   const [text, setText] = useState('');
   const [brightness, setBrightness] = useState(50);
-  const [scrollSpeed, setScrollSpeed] = useState(25);
-  const [backgroundColor, setBackgroundColor] = useState('#0000ff');
-  const [textColor, setTextColor] = useState('#00ff00');
-  const [borderColor, setBorderColor] = useState('#ff0000');
+  const [scrollSpeed, setScrollSpeed] = useState(10);
+  const [backgroundColor, setBackgroundColor] = useState('#000000');
+  const [textColor, setTextColor] = useState('#ffffff');
+  const [borderColor, setBorderColor] = useState('#000000');
   const [awaitingSignResponse, setAwaitingSignResponse] = useState(false);
   const [requestSuccessful, setRequestSuccessful] = useState();
   const inputArray = [
@@ -55,8 +55,8 @@ function LedSign(props) {
       title: 'Scroll Speed:',
       id: 'scroll-speed',
       value: scrollSpeed,
-      min: '0',
-      max: '50',
+      min: '1',
+      max: '20',
       step: '1',
       type: 'range',
       onChange: e => setScrollSpeed(e.target.value)
@@ -65,7 +65,7 @@ function LedSign(props) {
   const headerProps = {
     title: 'LED Sign'
   };
-
+console.log({scrollSpeed});
   async function handleSend() {
     setAwaitingSignResponse(true);
     const signResponse = await updateSignText({
@@ -97,6 +97,7 @@ function LedSign(props) {
     async function checkSignHealth() {
       setLoading(true);
       const status = await healthCheck('props.user.firstName');
+      console.log('after', {status});
       if (status && !status.error) {
         setSignHealthy(true);
         const { responseData } = status;

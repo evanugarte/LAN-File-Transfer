@@ -6,9 +6,16 @@ import axios from 'axios';
  * @param {string} officerName The name of the officer requesting the sign
  * @returns {ApiResponse} ApiResponse Object containing the response data
  */
-export async function healthCheck(officerName) {
+export async function healthCheck() {
   let status = {};
-  status.error = false;
+  console.log('woo');
+  await axios
+    .get('/health-check')
+    .catch(err => {
+      status.responseData = err;
+      status.error = true;
+    });
+    console.log(status);
   return status;
 }
 
@@ -21,9 +28,8 @@ export async function healthCheck(officerName) {
  */
 export async function updateSignText(signData) {
   let status = {};
-  console.log(signData)
   await axios
-    .post('/', { ...signData })
+    .post('/update-sign', { ...signData })
     .then(res => {
       status = res.data;
     })
