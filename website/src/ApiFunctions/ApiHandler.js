@@ -34,7 +34,6 @@ export async function handleDownload(fileId, fileName) {
 
 
 export async function handleDelete(fileId) {
-  console.log(fileId);
   return new Promise((resolve, reject) => {
     axios.delete('/api/delete', {
       data: {
