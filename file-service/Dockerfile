@@ -12,9 +12,9 @@ COPY setup setup
 
 COPY Makefile Makefile
 
-RUN mkdir /cpp_server/lib; exit 0
+RUN mkdir /cpp_server/lib ; exit 0
 
-RUN mkdir /cpp_server/uploads; exit 0
+RUN mkdir /cpp_server/uploads ; exit 0
 
 RUN mkdir /cpp_server/bin; exit 0
 
