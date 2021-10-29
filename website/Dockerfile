@@ -4,6 +4,8 @@ WORKDIR /frontend
 
 COPY package.json ./
 
+ENV NODE_OPTIONS=--openssl-legacy-provider
+
 RUN npm install --production
 
 COPY . ./
