@@ -1,8 +1,8 @@
-FROM repo.treescale.com/kafumji/lft-mongocxx-base
+FROM evanugarte/mongocxx-base
 
 WORKDIR /cpp_server
 
-RUN apt-get update \
+RUN apt-get update --allow-releaseinfo-change \
   && apt-get install -y wget cmake git make g++ curl python3 \
   && apt-get install sudo -y
 
