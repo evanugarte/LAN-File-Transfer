@@ -1,6 +1,6 @@
 #!/bin/bash
 function quit_if_script_run_as_root() {
-  if [[ ! -f /.dockerenv && $EUID -eq 0 ]]; then
+  if [[ $PLATFORM != "docker" && $EUID -eq 0 ]]; then
     echo "Hey don't use sudo thats our job"
     exit 1
   fi

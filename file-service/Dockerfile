@@ -16,7 +16,9 @@ RUN mkdir /cpp_server/lib; exit 0
 
 RUN mkdir /cpp_server/uploads; exit 0
 
-RUN mkdir /cpp_server/bin
+RUN mkdir /cpp_server/bin; exit 0
+
+ENV PLATFORM="docker"
 
 RUN chmod +x ./setup
 
