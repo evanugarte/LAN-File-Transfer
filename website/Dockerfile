@@ -1,10 +1,8 @@
-FROM node:alpine as builder
+FROM node:14-alpine as builder
 
 WORKDIR /frontend
 
 COPY package.json ./
-
-ENV NODE_OPTIONS=--openssl-legacy-provider
 
 RUN npm install --production
 
