@@ -30,12 +30,19 @@ class HttpServer {
   }
 
   auto DownloadHandler() {
+    // we need something like below
+    // https://stackoverflow.com/a/16155040
+    // maybe not use served?
     return [&](served::response &response, const served::request &request) {
       const std::string &file_name = request.params["file_name"];
       std::ostringstream buffer;
       const bool &read_result =
           file_handler.WriteFileToBuffer(buffer, file_name);
       if (read_result) {
+        // set content type to applicaiton/pdf hardcoded
+        // if this works this is huge
+        // no need for middleman anymore
+        // response.set_header("Content-type", "application/pdf");
         response << buffer.str();
       } else {
         served::response::stock_reply(404, response);

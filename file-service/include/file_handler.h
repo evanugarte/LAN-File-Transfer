@@ -39,6 +39,7 @@ class FileHandler {
   bool WriteFileToBuffer(std::ostringstream& buffer,
                          const std::string &file_name) {
     std::ifstream file_to_read(GenerateFilePath(file_name));
+    // https://stackoverflow.com/a/20911639
     if (file_to_read.fail()) {
       return false;
     } else {

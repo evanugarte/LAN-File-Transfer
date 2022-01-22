@@ -23,8 +23,9 @@ export async function handleDownload(fileId, fileName) {
     .then(blob => {
       let url = window.URL.createObjectURL(blob);
       let a = document.createElement('a');
-      a.href = url;
-      a.download = fileName;
+      a.href = `/api/download?fileId=${fileId}`;
+      // a.download = fileName;
+      a.target = "_blank";
       document.body.appendChild(a); 
       a.click();    
       a.remove();

@@ -1,4 +1,4 @@
-FROM node:14-alpine as builder
+FROM node:14.1-alpine as builder
 
 WORKDIR /frontend
 
@@ -8,7 +8,7 @@ RUN npm install --production
 
 COPY . ./
 
-RUN npm run build --production
+RUN npm run build
 
 FROM nginx:alpine
 
