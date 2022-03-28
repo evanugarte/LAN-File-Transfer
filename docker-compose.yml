@@ -42,14 +42,17 @@ services:
     container_name: lft-website
     build:
       context: ./website
-      dockerfile: ./Dockerfile
+      dockerfile: ./Dockerfile.dev
     ports:
-      - '3000:80'
+      - '3000:3000'
     restart: 'on-failure'
     links:
       - lft-api-gateway
     networks:
       - lft-local
+    volumes:
+      - ./website:/src/
+      - ./website/node_modules:/src/node_modules
   mongo:
     container_name: mongo
     image: mongo
