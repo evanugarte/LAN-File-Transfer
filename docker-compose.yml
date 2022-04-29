@@ -10,8 +10,6 @@ services:
     restart: 'on-failure'
     links:
       - mongo
-    networks:
-      - lft-local
   lft-file-api:
     container_name: lft-file-api
     volumes:
@@ -24,8 +22,6 @@ services:
     links:
       - lft-api-gateway
       - lft-logging-api
-    networks:
-      - lft-local
   lft-logging-api:
     container_name: lft-logging-api
     build:
@@ -36,8 +32,6 @@ services:
     restart: 'on-failure'
     links:
       - mongo
-    networks:
-      - lft-local
   lft-website:
     container_name: lft-website
     build:
@@ -48,23 +42,11 @@ services:
     restart: 'on-failure'
     links:
       - lft-api-gateway
-    networks:
-      - lft-local
   mongo:
-    container_name: mongo
+    container_name: mongo-lft
     image: mongo
     volumes:
       - "~/data/db:/usr/src/app/data/db"
     ports: 
       - '27017:27017'
-    networks:
-      lft-local:
-        ipv4_address: 172.16.0.1
-    command: mongod --bind_ip 127.0.0.1,172.16.0.1
-networks:
-  lft-local:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.16.0.0/24
-          gateway: 172.16.0.254
+    command: 'mongod'

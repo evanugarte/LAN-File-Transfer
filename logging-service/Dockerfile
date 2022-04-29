@@ -32,6 +32,6 @@ RUN rm -rf mongo-c-driver-1.17.0*
 
 RUN make all
 
-ENV MONGODB_URL "mongodb://172.16.0.1:27017"
+ENV MONGODB_URL "mongodb://mongo-lft:27017"
 
 CMD ["./bin/main"]
