@@ -5,8 +5,6 @@ services:
     build:
       context: ./api-gateway
       dockerfile: ./Dockerfile
-    ports:
-      - '5000:5000'
     restart: 'on-failure'
     links:
       - mongo
@@ -17,8 +15,6 @@ services:
     build:
       context: ./file-service
       dockerfile: ./Dockerfile
-    ports: 
-      - '5001:5001'
     links:
       - lft-api-gateway
       - lft-logging-api
@@ -27,8 +23,6 @@ services:
     build:
       context: ./logging-service
       dockerfile: ./Dockerfile
-    ports:
-      - '5002:5002'
     restart: 'on-failure'
     links:
       - mongo
@@ -47,6 +41,4 @@ services:
     image: mongo
     volumes:
       - "~/data/db:/usr/src/app/data/db"
-    ports: 
-      - '27017:27017'
     command: 'mongod'
