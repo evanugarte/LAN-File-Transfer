@@ -2,6 +2,14 @@
 Using React.js, C++ and MongoDB, this application allows files to be hosted and
  transferred over local networks.
 
+## How to Run
+with docker-compose installed, simply do 
+```
+docker-compose up
+```
+
+the website will be accessible at `http://localhost:3000`.
+
 ## Project Architecture
 [![lft-architecture](https://user-images.githubusercontent.com/36345325/104837278-49077280-5868-11eb-853a-614c12b05da8.png)](https://user-images.githubusercontent.com/36345325/104837278-49077280-5868-11eb-853a-614c12b05da8.png)
 
