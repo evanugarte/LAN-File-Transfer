@@ -38,7 +38,7 @@ services:
       - lft-api-gateway
   mongo:
     container_name: mongo-lft
-    image: mongo
+    image: mongo:4.0
     volumes:
       - "~/data/db:/usr/src/app/data/db"
     command: 'mongod'
